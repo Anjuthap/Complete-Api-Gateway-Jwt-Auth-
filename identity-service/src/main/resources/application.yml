@@ -1,0 +1,23 @@
+server:
+  port: 8080
+  error:
+    include-stacktrace: always
+
+
+spring:
+  application:
+    name: identity-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/user
+    username: root
+    password: anjuthapa
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+
+
