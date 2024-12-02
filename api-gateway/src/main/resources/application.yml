@@ -8,6 +8,8 @@ spring:
           uri: http://localhost:8081/
           Predicates:
             - Path=/user/**
+          filters:
+            - JwtAuthenticationFilter
 
 
         - id: identity-service
