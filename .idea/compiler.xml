@@ -8,15 +8,19 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="api-gateway" />
-        <module name="identity-service" />
         <module name="user-service" />
+        <module name="identity-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="microservice1" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
       <module name="identity-service" options="-parameters" />
+      <module name="microservice1" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>
   </component>

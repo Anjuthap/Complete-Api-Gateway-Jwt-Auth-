@@ -1,4 +1,5 @@
 package com.example.user_service.controller;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
         @GetMapping("/greeting")
-//        @PreAuthorize("hasRole('USER')")
+        @PreAuthorize("hasRole('USER')")
         public String greeting() {
             return "Hello from User Service!";
         }

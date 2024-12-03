@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,10 +28,10 @@ public class AuthService {
     @Autowired
 private JwtService jwtService;
 
-    public String saveUser(User user){
+    public User saveUser(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return "user added ";
+       return userRepository.save(user);
+
     }
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);

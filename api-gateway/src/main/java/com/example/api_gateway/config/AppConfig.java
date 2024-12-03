@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 public class AppConfig {
 
     @Bean
-    public RestTemplate template(){
+    public RestTemplate template(){ //works as a bridge calling external Apis of the microservices
         return new RestTemplate();
     }
 }

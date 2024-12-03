@@ -30,6 +30,7 @@ public class AuthConfig {
         return http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/signup", "/auth/login", "/auth/ ").permitAll()
+                .requestMatchers("/user/greeting").hasAuthority("ROLE_USER")
                 .and()
                 .build();
     }
