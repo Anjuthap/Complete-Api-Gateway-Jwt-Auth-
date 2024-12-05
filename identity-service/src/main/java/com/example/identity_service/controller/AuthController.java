@@ -20,20 +20,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/auth")
 public class AuthController {
 
-//    @Autowired
-//    private JwtService jwtService;
-
     @Autowired
     private AuthService service;
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-//    @PostMapping("/login")
-//    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-//        final String jwt = jwtService.generateToken(authenticationRequest);
-//        return ResponseEntity.ok(new AuthenticationResponse(jwt));
-//    }
 
     @PostMapping("/signup")
     public String  registerUser(@RequestBody User user) {
@@ -44,20 +35,35 @@ public class AuthController {
         service.saveUser(user);
         return "User registered successfully.";
     }
-    @PostMapping("/login")
-    public String getToken(@RequestBody AuthenticationRequest authRequest) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        if (authenticate.isAuthenticated()) {
-            return service.generateToken(authRequest.getUsername());
-        } else {
-            throw new RuntimeException("invalid access");
-        }
+//    @PostMapping("/login")
+//    public String getToken(@RequestBody AuthenticationRequest authRequest) {
+//        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+//        if (authenticate.isAuthenticated()) {
+//            return service.generateToken(authRequest.getUsername());
+//        } else {
+//            throw new RuntimeException("invalid access");
+//        }
+//    }
+@PostMapping("/login")
+public ResponseEntity<?> getToken(@RequestBody AuthenticationRequest authRequest) {
+    Authentication authenticate = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+
+    if (authenticate.isAuthenticated()) {
+        User user = service.findByUsername(authRequest.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        final String jwt = service.generateToken(user,authenticate);
+
+        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    } else {
+        throw new RuntimeException("Invalid access");
     }
+}
 
     @GetMapping("/validate")
     public String validateToken(@RequestParam("token") String token) {
         service.validateToken(token);
         return "Token is valid";
     }
-
 }

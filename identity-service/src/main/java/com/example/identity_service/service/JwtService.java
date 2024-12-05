@@ -2,6 +2,8 @@ package com.example.identity_service.service;
 
 import com.example.identity_service.entity.AuthenticationRequest;
 //import com.example.identity_service.util.JwtUtil;
+import com.example.identity_service.entity.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -9,6 +11,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -28,9 +31,16 @@ public class JwtService {
     public void validateToken(final String token) {
         Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
     }
-    public String generateToken(String userName) {
+//    public String generateToken(String userName) {
+//        Map<String, Object> claims = new HashMap<>();
+////        claims.put("roles", user.getRoles());
+//        return createToken(claims, userName);
+//    }
+
+    public String generateToken(User user, Authentication authentication) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userName);
+        claims.put("role", authentication.getAuthorities().toString()); //// Add roles to the token
+        return createToken(claims, user.getUsername());
     }
 
     private String createToken(Map<String, Object> claims, String userName) {
@@ -46,4 +56,6 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+
 }
