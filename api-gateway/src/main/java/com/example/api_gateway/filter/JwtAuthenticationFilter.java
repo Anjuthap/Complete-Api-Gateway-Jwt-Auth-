@@ -48,25 +48,25 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
                 System.out.println("Extracted Role: " + role);
 //                    exchange.getRequest().mutate().header("role", role).build();
 
-                if (validator.isAdminAccess.test(exchange.getRequest())) {
-                    if (role.contains("ROLE_ADMIN")) {
+                if (validator.isCreateBankAccess.test(exchange.getRequest())) {
+                    if (role.contains("CREATE_BANK")) {
                         logger.info("User With Role " + role + " Is Accessing The Api " + exchange.getRequest().getURI());
                     } else {
                         logger.error("User With Role " + role + "  Don't Have Access To This Api " + exchange.getRequest().getURI());
                         throw new RoleNotMatchedException("Only Admin Can access " + exchange.getRequest().getURI());
                     }
                 }
-                if (validator.isUserAccess.test(exchange.getRequest())) {
-                    if (role.contains("ROLE_USER")) {
+                if (validator.isUpdateBankAccess .test(exchange.getRequest())) {
+                    if (role.contains("UPDATE_BANK")) {
                         logger.info("User With Role " + role + " Is Accessing The Api " + exchange.getRequest().getURI());
                     } else {
                         logger.error("User With Role " + role + "  Don't Have Access To This Api " + exchange.getRequest().getURI());
                         throw new RoleNotMatchedException("Only User Can Access " + exchange.getRequest().getURI());
                     }
                 }
-                if(validator.isCommonAccess.test(exchange.getRequest())){
-                    if (role.contains("ROLE_ADMIN") || role.contains("ROLE_USER")) {
-                        logger.info(role + " access granted for common endpoint: " + exchange.getRequest().getURI());
+                if(validator.isViewBankAccess.test(exchange.getRequest())){
+                    if (role.contains("VIEW_BANK")) {
+                        logger.info(role + " access granted for view bank endpoint: " + exchange.getRequest().getURI());
                     }  else {
                         logger.error("?????????>>>>>>>>>>>>");
                     throw new RoleNotMatchedException("Unauthorized role for: " + exchange.getRequest().getURI());

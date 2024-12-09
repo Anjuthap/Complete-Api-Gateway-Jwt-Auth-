@@ -13,17 +13,21 @@ public class UserController {
 
         @PostMapping("/admin/create/bank")
         public String create() {
-            return "Can be accessed by USER(create bank)!";
+            return "Can be accessed by admin(create bank)!";
         }
 
         @PutMapping("/admin/update/bank")
         public String update() {
-            return "Can only be accessed by USER(update bank)!";
+            return "Can only be accessed by admin(update bank)!";
     }
 
-    @GetMapping("/user/view/feedback")
-    public String feedback(){
-            return "Fedback can be viewed by only user";
+        @GetMapping("/admin/view/bank")
+        public String feedback(){
+            return "Fedback can be viewed ";
+    }
+    @PutMapping("/update/logo")
+    public String updateLogo() {
+        return "Can only be accessed by role (update)!";
     }
     }
 

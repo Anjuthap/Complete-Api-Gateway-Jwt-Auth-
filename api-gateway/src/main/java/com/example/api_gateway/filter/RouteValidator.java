@@ -20,27 +20,28 @@ public class RouteValidator {
                     .stream()
                     .noneMatch(uri -> request.getURI().getPath().contains(uri));
 
-    public static final List<String> adminApiEndpoints = List.of(
-            "/api/admin/create/bank",
-            "/api/admin/put/bank"
+    public static final List<String> createBankEndpoints = List.of(
+            "/api/admin/create/bank"
+
     );
-    public Predicate<ServerHttpRequest> isAdminAccess =
-            request -> adminApiEndpoints
+    public Predicate<ServerHttpRequest> isCreateBankAccess =
+            request -> createBankEndpoints
                     .stream()
                     .anyMatch(uri -> new AntPathMatcher().match(uri, request.getURI().getPath()));
 
-    public static final List<String> userApiEndpoints =List.of(
-            "/api/user/view/feedback"
+    public static final List<String> updateBankEndpoints =List.of(
+            "/api/admin/update/bank",
+            "/api/admin/update/logo"
     );
-    public Predicate<ServerHttpRequest> isUserAccess =
-            request -> userApiEndpoints
+    public Predicate<ServerHttpRequest> isUpdateBankAccess  =
+            request -> updateBankEndpoints
                     .stream()
                     .anyMatch(uri -> new AntPathMatcher().match(uri, request.getURI().getPath()));
 
-    public static final List<String> commonApiEndpoints = List.of(
+    public static final List<String> viewApiEndpoints = List.of(
             "/api/view/bank"
     );
-    public Predicate<ServerHttpRequest> isCommonAccess =
-            request -> commonApiEndpoints.contains(request.getURI().getPath());
+    public Predicate<ServerHttpRequest> isViewBankAccess =
+            request -> viewApiEndpoints.contains(request.getURI().getPath());
 }
 
